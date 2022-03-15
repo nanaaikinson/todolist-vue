@@ -15,6 +15,11 @@ export const useCategoryStore = defineStore("category", {
     GetCategories(state) {
       return state.categories;
     },
+    GetCategory(state) {
+      const categories = state.categories;
+
+      return (id: number) => categories.find((item) => item.id === id);
+    },
   },
   actions: {
     async FetchCategories() {
@@ -23,6 +28,12 @@ export const useCategoryStore = defineStore("category", {
     },
     AddCategory(payload: Category) {
       this.categories.push(payload);
+    },
+    UpdateCategory(payload: Category) {
+      const index = this.categories.findIndex((item) => item.id === payload.id);
+      if (index !== -1) {
+        this.categories[index] = payload;
+      }
     },
   },
 });

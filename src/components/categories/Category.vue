@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive } from "vue";
+import { computed, defineComponent, reactive, toRefs, watch } from "vue";
 import { useField, useForm } from "vee-validate";
 import InputError from "@/components/InputError.vue";
 import { categoryFormSchema } from "@/schema/form";
@@ -76,6 +76,7 @@ import { categoryService } from "@/services/category";
 import { ResponseEnum } from "@/types/enums";
 import Alert from "@/components/Alert.vue";
 import type { AlertVariantType } from "@/types";
+import { useCategoryStore } from "@/stores/category";
 
 export default defineComponent({
   name: "Category",
@@ -85,10 +86,18 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    id: {
+      type: Number,
+      required: true,
+    },
   },
-  emits: ["update:visible"],
+  emits: ["update:visible", "update:id"],
   setup(props, { emit }) {
+    // Props
+    const { id } = toRefs(props);
+
     // Data
+    const categoryStore = useCategoryStore();
     const colors = [
       "#E58D8D33",
       "#67CBAC33",
@@ -97,9 +106,10 @@ export default defineComponent({
       "#7367CB33",
       "#CB916733",
     ];
-    const { errors, validate, resetForm, setFieldError } = useForm({
-      validationSchema: categoryFormSchema,
-    });
+    const { errors, validate, resetForm, setFieldError, setFieldValue } =
+      useForm({
+        validationSchema: categoryFormSchema,
+      });
     const { value: name } = useField<string>("name");
     const { value: color } = useField<string>("color");
     const alertData = reactive<{ variant: AlertVariantType; text: string }>({
@@ -116,12 +126,26 @@ export default defineComponent({
         emit("update:visible", val);
       },
     });
+
+    // Watch
+    watch(
+      () => id.value,
+      (val) => {
+        if (val && val > 0) {
+          const category = categoryStore.GetCategory(val);
+          if (category) {
+            setFieldValue("name", category.name);
+            setFieldValue("color", category.color);
+          }
+        }
+      }
+    );
+
+    // Methods
     const closeModal = () => {
       computedVisibility.value = false;
       resetForm();
     };
-
-    // Methods
     const saveCategory = async () => {
       const valid = await validate();
 
@@ -132,10 +156,25 @@ export default defineComponent({
         };
 
         try {
-          await categoryService.store(data);
-          resetForm();
+          if (id.value && id.value > 0) {
+            const response = await categoryService.update(id.value, data);
+            categoryStore.UpdateCategory({
+              id: response.data.id,
+              name: response.data.name,
+              color: response.data.color,
+            });
+          } else {
+            const response = await categoryService.store(data);
+            categoryStore.AddCategory({
+              id: response.data.id,
+              name: response.data.name,
+              color: response.data.color,
+            });
+          }
 
+          resetForm();
           alertData.text = "";
+          emit("update:id", 0);
           emit("update:visible", false);
         } catch (error) {
           if (axios.isAxiosError(error) && error.response) {

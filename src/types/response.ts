@@ -10,6 +10,10 @@ export interface LoginResponse {
   };
 }
 
+export interface CategoryResponse {
+  data: Category;
+}
+
 export interface CategoriesResponse {
   data: Array<Category>;
 }
