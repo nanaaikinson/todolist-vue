@@ -1,0 +1,5 @@
+export enum ResponseEnum {
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  UNPROCESSABLE_REQUEST = 422,
+}
