@@ -70,12 +70,12 @@ import { useField, useForm } from "vee-validate";
 import InputError from "@/components/InputError.vue";
 import { categoryFormSchema } from "@/schema/form";
 import Modal from "@/components/Modal.vue";
-import type { StoreCategoryRequest } from "@/types/request";
+import type { StoreCategoryRequest } from "@/typings/request";
 import axios from "axios";
 import { categoryService } from "@/services/category";
-import { ResponseEnum } from "@/types/enums";
+import { ResponseEnum } from "@/typings/enums";
 import Alert from "@/components/Alert.vue";
-import type { AlertVariantType } from "@/types";
+import type { AlertVariantType } from "@/typings";
 import { useCategoryStore } from "@/stores/category";
 
 export default defineComponent({

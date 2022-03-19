@@ -1,5 +1,5 @@
-import type { LoginRequest, RegisterRequest } from "@/types/request";
-import type { LoginResponse } from "@/types/response";
+import type { LoginRequest, RegisterRequest } from "@/typings/request";
+import type { LoginResponse } from "@/typings/response";
 import { http } from "./axios";
 
 class AuthService {

@@ -1,4 +1,4 @@
-import type { AuthUser } from "@/types";
+import type { AuthUser } from "@/typings";
 import { defineStore } from "pinia";
 
 interface RootAuthState {

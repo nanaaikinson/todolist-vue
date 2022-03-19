@@ -1,4 +1,4 @@
-import { object, string, ref } from "yup";
+import { object, string, date, number, ref } from "yup";
 
 export const loginFormSchema = object({
   email: string().required().email().label("Email"),
@@ -18,4 +18,13 @@ export const registerFormSchema = object({
 export const categoryFormSchema = object({
   name: string().required().label("Category name"),
   color: string().required().label("Color"),
+});
+
+const today = new Date();
+export const taskFormSchema = object({
+  name: string().required().min(3).label("Task name"),
+  category: number().required().label("Category"),
+  description: string().label("Description"),
+  due_date: date().min(today).label("Due date"),
+  status: string().oneOf(["", "in-progress", "completed"]).label("Status"),
 });

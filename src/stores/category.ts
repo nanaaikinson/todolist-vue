@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { Category } from "@/types";
+import type { Category } from "@/typings";
 import { categoryService } from "@/services/category";
 
 interface RootCategoryState {

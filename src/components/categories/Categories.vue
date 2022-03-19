@@ -1,5 +1,5 @@
 <template>
-  <div class="border-l border-gray-200 h-screen px-5">
+  <div class="border-l border-gray-200 h-screen px-5 pt-12">
     <h4 class="mb-10 font-semibold">Categories</h4>
 
     <ul class="space-y-3 mb-8">

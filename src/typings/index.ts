@@ -10,3 +10,11 @@ export interface Category {
   name: string;
   color: string;
 }
+
+interface Tab {
+  title: string;
+}
+
+export interface TabsProps {
+  tabs: Array<Tab>;
+}

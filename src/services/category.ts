@@ -1,6 +1,6 @@
 import { http } from "@/services/axios";
-import type { StoreCategoryRequest } from "@/types/request";
-import type { CategoriesResponse, CategoryResponse } from "@/types/response";
+import type { StoreCategoryRequest } from "@/typings/request";
+import type { CategoriesResponse, CategoryResponse } from "@/typings/response";
 
 class CategoryService {
   private endpoint = "/categories";
