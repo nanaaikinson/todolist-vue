@@ -19,6 +19,10 @@ class CategoryService {
   ): Promise<CategoryResponse> {
     return http.patch(`${this.endpoint}/${id}`, data);
   }
+
+  public destroy(id: number): Promise<void> {
+    return http.delete(`${this.endpoint}/${id}`);
+  }
 }
 
 export const categoryService = new CategoryService();

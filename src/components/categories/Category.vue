@@ -146,49 +146,52 @@ export default defineComponent({
       computedVisibility.value = false;
       resetForm();
     };
+
     const saveCategory = async () => {
       const valid = await validate();
 
-      if (valid) {
-        const data: StoreCategoryRequest = {
-          name: name.value,
-          color: color.value,
-        };
+      if (!valid) {
+        return;
+      }
 
-        try {
-          if (id.value && id.value > 0) {
-            const response = await categoryService.update(id.value, data);
-            categoryStore.UpdateCategory({
-              id: response.data.id,
-              name: response.data.name,
-              color: response.data.color,
-            });
-          } else {
-            const response = await categoryService.store(data);
-            categoryStore.AddCategory({
-              id: response.data.id,
-              name: response.data.name,
-              color: response.data.color,
-            });
-          }
+      const data: StoreCategoryRequest = {
+        name: name.value,
+        color: color.value,
+      };
 
-          resetForm();
-          alertData.text = "";
-          emit("update:id", 0);
-          emit("update:visible", false);
-        } catch (error) {
-          if (axios.isAxiosError(error) && error.response) {
-            const { status, data } = error.response;
+      try {
+        if (id.value && id.value > 0) {
+          const response = await categoryService.update(id.value, data);
+          categoryStore.UpdateCategory({
+            id: response.data.id,
+            name: response.data.name,
+            color: response.data.color,
+          });
+        } else {
+          const response = await categoryService.store(data);
+          categoryStore.AddCategory({
+            id: response.data.id,
+            name: response.data.name,
+            color: response.data.color,
+          });
+        }
 
-            if (status === ResponseEnum.UNPROCESSABLE_REQUEST) {
-              for (const key in data.errors) {
-                if (key === "name") setFieldError(key, data.errors[key]);
-                if (key === "color") setFieldError(key, data.errors[key]);
-              }
-            } else {
-              alertData.variant = "error";
-              alertData.text = data.message;
+        resetForm();
+        alertData.text = "";
+        emit("update:id", 0);
+        emit("update:visible", false);
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          const { status, data } = error.response;
+
+          if (status === ResponseEnum.UNPROCESSABLE_REQUEST) {
+            for (const key in data.errors) {
+              if (key === "name") setFieldError(key, data.errors[key]);
+              if (key === "color") setFieldError(key, data.errors[key]);
             }
+          } else {
+            alertData.variant = "error";
+            alertData.text = data.message;
           }
         }
       }

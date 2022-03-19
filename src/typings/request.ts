@@ -14,3 +14,11 @@ export interface StoreCategoryRequest {
   name: string;
   color: string;
 }
+
+export interface StoreTaskRequest {
+  name: string;
+  due_date: string;
+  category: number;
+  status?: string;
+  description?: string;
+}

@@ -1,3 +1,11 @@
+interface Tab {
+  title: string;
+}
+
+export interface TabsProps {
+  tabs: Array<Tab>;
+}
+
 export type AlertVariantType = "info" | "error" | "success" | "default";
 
 export interface AuthUser {
@@ -10,11 +18,14 @@ export interface Category {
   name: string;
   color: string;
 }
-
-interface Tab {
-  title: string;
-}
-
-export interface TabsProps {
-  tabs: Array<Tab>;
+export interface Task {
+  id: number;
+  name: string;
+  due_date: string;
+  category_id: number;
+  user_id: number;
+  status: boolean;
+  description: string;
+  created_at: string;
+  category?: Category;
 }

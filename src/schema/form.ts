@@ -25,6 +25,6 @@ export const taskFormSchema = object({
   name: string().required().min(3).label("Task name"),
   category: number().required().label("Category"),
   description: string().label("Description"),
-  due_date: date().min(today).label("Due date"),
+  due_date: date().required().min(today).label("Due date"),
   status: string().oneOf(["", "in-progress", "completed"]).label("Status"),
 });

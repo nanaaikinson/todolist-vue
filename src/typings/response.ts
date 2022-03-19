@@ -1,4 +1,4 @@
-import type { Category } from "@/types/index";
+import type { Category, Task } from "@/typings/index";
 
 export interface LoginResponse {
   data: {
@@ -10,10 +10,12 @@ export interface LoginResponse {
   };
 }
 
-export interface CategoryResponse {
-  data: Category;
+interface Response<T> {
+  data: T;
 }
 
-export interface CategoriesResponse {
-  data: Array<Category>;
-}
+export type CategoryResponse = Response<Category>;
+export type CategoriesResponse = Response<Array<Category>>;
+
+export type TaskResponse = Response<Task>;
+export type TasksResponse = Response<Array<Task>>;
