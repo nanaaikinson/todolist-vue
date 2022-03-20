@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12 lg:col-9">
-      <div class="pt-12">
+      <div class="mt-12">
         <div class="flex justify-between items-center mb-10">
           <h4 class="font-semibold">Tasks</h4>
           <button class="btn btn-primary" @click="showTaskModal = true">
@@ -29,9 +29,41 @@
             </template>
 
             <template #actions="{ item }">
-              <button :data-id="item.id">
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </button>
+              <div class="relative">
+                <button
+                  class="transition-all w-8 h-8 rounded-lg hover:bg-gray-200 flex items-center justify-center"
+                  @click="toggleDropdown(item.id)"
+                >
+                  <i
+                    class="bx bx-dots-vertical-rounded pointer-events-none"
+                  ></i>
+                </button>
+
+                <div
+                  :id="`dropdown-${item.id}`"
+                  :data-id="item.id"
+                  class="dropdownMenu hidden absolute right-0 z-10 w-32 text-base list-none bg-white rounded divide-y divide-gray-100 shadow"
+                >
+                  <ul class="py-1 px-2" aria-labelledby="dropdownButton">
+                    <li>
+                      <button
+                        type="button"
+                        class="w-full text-left py-1.5 px-2 text-sm rounded text-gray-700 hover:bg-gray-100"
+                      >
+                        Edit
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        type="button"
+                        class="w-full text-left py-1.5 px-2 text-sm rounded text-gray-700 hover:bg-gray-100"
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </template>
           </Table>
         </div>
@@ -129,6 +161,21 @@ export default defineComponent({
       }
     });
 
+    // Methods
+    const toggleDropdown = (id: number) => {
+      const dropdowns = document.querySelectorAll(".dropdownMenu");
+      dropdowns.forEach((el) => {
+        const element = el as HTMLDivElement;
+        const dataId = Number(element.dataset.id);
+
+        if (dataId === id) {
+          element.classList.toggle("hidden");
+        } else {
+          element.classList.add("hidden");
+        }
+      });
+    };
+
     // Hooks
     onMounted(async () => {
       await taskStore.FetchTasks();
@@ -140,6 +187,7 @@ export default defineComponent({
       tabs,
       showTaskModal,
       tasks,
+      toggleDropdown,
     };
   },
 });
