@@ -18,6 +18,7 @@ export const useTaskStore = defineStore("tasks", {
     async FetchTasks() {
       const categoryStore = useCategoryStore();
 
+      await categoryStore.FetchCategories();
       const response = await taskService.index();
       const tasks = response.data.map((task) => {
         const category = categoryStore.GetCategories.find(

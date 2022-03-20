@@ -20,3 +20,9 @@ export default defineComponent({
   components: { Header, Sidebar },
 });
 </script>
+
+<style>
+body {
+  @apply bg-white;
+}
+</style>

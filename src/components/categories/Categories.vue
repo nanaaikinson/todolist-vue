@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useCategoryStore } from "@/stores/category";
 import Category from "@/components/categories/Category.vue";
 
@@ -61,11 +61,6 @@ export default defineComponent({
       }
       showCategory.value = true;
     };
-
-    // Hooks
-    onMounted(async () => {
-      await categoryStore.FetchCategories();
-    });
 
     return {
       showCategory,

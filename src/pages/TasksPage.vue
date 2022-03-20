@@ -9,30 +9,31 @@
           </button>
         </div>
 
-        <Tabs :tabs="tabs" />
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Task name</th>
-                <th>Category</th>
-                <th>Date created</th>
-                <th>Due date</th>
-                <th>Status</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="task in allTasks" :key="task.id">
-                <td>{{ task.name }}</td>
-                <td>{{ task.category }}</td>
-                <td>{{ task.created_at }}</td>
-                <td>{{ task.due_date }}</td>
-                <td>{{ task.status }}</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+        <Tabs :tabs="tabs" v-model:tab="tab" />
+
+        <div class="my-8">
+          <Table :columns="columns" :items="tasks">
+            <template #category="{ item }">
+              <Badge :style="{ backgroundColor: `${item.category.color}` }">{{
+                item.category.name
+              }}</Badge>
+            </template>
+
+            <template #status="{ item }">
+              <Badge :style="{ backgroundColor: `#F4FFF2` }" v-if="item.status"
+                >Completed</Badge
+              >
+              <Badge :style="{ backgroundColor: `#677ACB66` }" v-else
+                >In progress</Badge
+              >
+            </template>
+
+            <template #actions="{ item }">
+              <button :data-id="item.id">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+            </template>
+          </Table>
         </div>
       </div>
     </div>
@@ -50,20 +51,31 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { useTaskStore } from "@/stores/tasks";
-import type { TabsProps } from "@/typings";
+import { formatDate } from "@/utils/helpers";
+import type { TableColumns, TabsProps } from "@/typings";
 
 import Categories from "@/components/categories/Categories.vue";
 import Tabs from "../components/Tabs.vue";
 import Task from "../components/tasks/Task.vue";
-import { formatDate } from "@/utils/helpers";
+import Table from "../components/Table.vue";
+import Badge from "../components/Badge.vue";
 
 export default defineComponent({
   name: "TasksPage",
-  components: { Categories, Tabs, Task },
+  components: { Categories, Tabs, Task, Table, Badge },
   setup() {
     const taskStore = useTaskStore();
+    const columns: TableColumns = [
+      { key: "name", label: "Name" },
+      { key: "category", label: "Category" },
+      { key: "created_at", label: "Created At" },
+      { key: "due_date", label: "Due Date" },
+      { key: "status", label: "Status" },
+      { key: "actions", label: "" },
+    ];
 
     // Data
+    const tab = ref<number>(0);
     const tabs = ref<TabsProps["tabs"]>([
       { title: "All" },
       { title: "Today" },
@@ -78,8 +90,8 @@ export default defineComponent({
       taskStore.GetTasks.map((item) => {
         return {
           ...item,
-          created_at: formatDate(item.created_at),
-          due_date: formatDate(item.due_date),
+          created_at: formatDate(item.created_at, "DD/MM/YYYY"),
+          due_date: formatDate(item.due_date, "DD/MM/YYYY"),
         };
       })
     );
@@ -104,6 +116,18 @@ export default defineComponent({
         return date > today;
       });
     });
+    const tasks = computed(() => {
+      switch (tab.value) {
+        case 1:
+          return todayTasks.value;
+        case 2:
+          return upcomingTasks.value;
+        case 3:
+          return pastTasks.value;
+        default:
+          return allTasks.value;
+      }
+    });
 
     // Hooks
     onMounted(async () => {
@@ -111,12 +135,11 @@ export default defineComponent({
     });
 
     return {
+      tab,
+      columns,
       tabs,
       showTaskModal,
-      allTasks,
-      todayTasks,
-      pastTasks,
-      upcomingTasks,
+      tasks,
     };
   },
 });

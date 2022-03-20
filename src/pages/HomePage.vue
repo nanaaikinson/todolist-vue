@@ -59,10 +59,10 @@ import { computed, defineComponent, ref } from "vue";
 import { useForm, useField } from "vee-validate";
 import { loginFormSchema } from "@/schema/form";
 import { authService } from "@/services/auth";
-import type { LoginRequest } from "@/types/request";
+import type { LoginRequest } from "@/typings/request";
 import InputError from "../components/InputError.vue";
 import axios from "axios";
-import { ResponseEnum } from "@/types/enums";
+import { ResponseEnum } from "@/typings/enums";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
 

@@ -29,3 +29,11 @@ export interface Task {
   created_at: string;
   category?: Category;
 }
+
+interface TableColumn {
+  key: string;
+  label: string;
+  sortable?: boolean;
+}
+
+export type TableColumns = Array<TableColumn>;

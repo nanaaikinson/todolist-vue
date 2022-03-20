@@ -100,11 +100,11 @@ import { defineComponent, reactive, ref } from "vue";
 import { useForm, useField } from "vee-validate";
 import { registerFormSchema } from "@/schema/form";
 import InputError from "../components/InputError.vue";
-import type { RegisterRequest } from "@/types/request";
+import type { RegisterRequest } from "@/typings/request";
 import axios from "axios";
 import { authService } from "@/services/auth";
-import { ResponseEnum } from "@/types/enums";
-import type { AlertVariantType } from "@/types";
+import { ResponseEnum } from "@/typings/enums";
+import type { AlertVariantType } from "@/typings";
 import Alert from "../components/Alert.vue";
 
 export default defineComponent({

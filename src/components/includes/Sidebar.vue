@@ -1,8 +1,10 @@
 <template>
   <aside class="bg-primary fixed h-screen" :class="[width]">
-    <div></div>
+    <div class="h-14 px-5 pl-9 flex items-center">
+      <h4 class="font-semibold text-2xl mb-0 text-white">Todolist</h4>
+    </div>
 
-    <ul class="flex flex-col p-5 space-y-2">
+    <ul class="flex flex-col p-5 pt-12 space-y-2">
       <li>
         <router-link
           :to="{ name: 'Dashboard' }"
