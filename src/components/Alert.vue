@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import type { AlertVariantType } from "@/types";
+import type { AlertVariantType } from "@/typings";
 import { computed, defineComponent, toRefs, type PropType } from "vue";
 
 export default defineComponent({

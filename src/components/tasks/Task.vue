@@ -125,10 +125,9 @@ export default defineComponent({
   setup(props, { emit }) {
     // Data
     const categoryStore = useCategoryStore();
-    const { errors, validate, setFieldError, setFieldValue, resetForm } =
-      useForm({
-        validationSchema: taskFormSchema,
-      });
+    const { errors, validate, setFieldError, resetForm } = useForm({
+      validationSchema: taskFormSchema,
+    });
     const { value: name } = useField<string>("name");
     const { value: category } = useField<number>("category");
     const { value: description } = useField<string>("description");
@@ -172,7 +171,7 @@ export default defineComponent({
       };
 
       try {
-        const response = await taskService.store(data);
+        await taskService.store(data);
         closeModal();
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
