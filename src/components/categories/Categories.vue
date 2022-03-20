@@ -26,7 +26,7 @@
 
     <button
       class="text-primary inline-flex items-center space-x-1"
-      @click="storeOrUpdateCategory"
+      @click="storeOrUpdateCategory(null)"
     >
       <span>Add category</span>
       <i class="bx bx-plus"></i>
@@ -55,7 +55,7 @@ export default defineComponent({
     const categories = computed(() => categoryStore.GetCategories);
 
     // Methods
-    const storeOrUpdateCategory = async (id?: number) => {
+    const storeOrUpdateCategory = async (id: number | null) => {
       if (id) {
         categoryId.value = id as number;
       }
